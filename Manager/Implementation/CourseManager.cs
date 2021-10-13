@@ -16,44 +16,41 @@ namespace Manager.Implementation
         {
             this.CourseRepository = CourseRepository;
         }
-        public bool ActiveOrDeactive(long userId)
-        {
-            throw new NotImplementedException();
-        }
+     
 
-        public bool Create(Course user)
+        public bool Create(string courseName)
         {
-            var result = new List<Students>
-                {
-                    new Students
-                    {
-                        StudentName = "Akram",
-                        CreatedOn = DateTime.Now,
-                        UpdatedOn = DateTime.Now,
-                        IsActive = true
-                    }
-            };
-                
-            var course = new Course
-            {
-                CourseName = "AFM",
-                Students = result
-            };
 
-            this.CourseRepository.Add(course);
-            this.CourseRepository.SaveChanges();
-            return true;
+            if (courseName == null)
+                throw new ArgumentNullException("Course Name can not be null !");
+
+            //if (courseName == string.Empty )
+            //    throw new ArgumentException("Course Name can not be Emety !");
+
+            var aNewCourse = new Course() { CourseName = courseName };
+
+            this.CourseRepository.Add(aNewCourse);
+            return this.CourseRepository.SaveChanges();
 
         }
 
-        public object GetAll()
+        public IEnumerable<Course> GetAll()
         {
-            throw new NotImplementedException();
+            return this.CourseRepository.GetAll();
         }
 
-        public bool Update(long courseId, string fristName, string lastName)
+        public bool UpdateCourseName(long courseId, string courseName)
         {
-            throw new NotImplementedException();
+            if (courseName == null)
+                throw new ArgumentNullException("Course Name can not be null !");
+
+            if (courseName == string.Empty)
+                throw new ArgumentException("Course Name can not be Emety !");
+
+            var aCourse = this.CourseRepository.GetById(courseId);
+            aCourse.CourseName = courseName;
+            this.CourseRepository.Update(aCourse);
+            return this.CourseRepository.SaveChanges();
         }
     }
 }

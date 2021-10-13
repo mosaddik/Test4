@@ -7,9 +7,8 @@ namespace Manager.Interface
 {
     public interface ICourseManager
     {
-        public bool Create(Course user);
-        public bool Update(long courseId , string fristName, string lastName);
-        public bool ActiveOrDeactive(long userId);
-        public object GetAll();
+        public bool Create(string courseName);
+        public bool UpdateCourseName(long courseId , string courseName);
+        public IEnumerable<Course> GetAll();
     }
 }

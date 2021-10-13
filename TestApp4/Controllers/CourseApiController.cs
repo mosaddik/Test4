@@ -1,6 +1,7 @@
 ﻿using Manager.Implementation;
 using Manager.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,9 @@ namespace TestApp4.Controllers
 
         // GET: api/<CourseApiController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Course> Get()
         {
-            return new string[] { "value1", "value2" };
+            return this.courseManager.GetAll();
         }
 
         // GET api/<CourseApiController>/5
@@ -39,9 +40,25 @@ namespace TestApp4.Controllers
 
         // POST api/<CourseApiController>
         [HttpPost]
-        public void Post()
+        public object Post(string courseName)
         {
-            this.courseManager.Create(null);
+            try
+            {
+                var success = this.courseManager.Create(courseName);
+                
+                if(success == true)
+                    return new { success = true, successMssage = "Course Added Successfully !" };
+                
+                else
+                     return new { success = false, errorMessage = "No rows effected" };
+
+            }
+            catch (Exception ex)
+            {
+
+                return new { success = false , errorMessage = ex.GetBaseException().Message };
+            }
+            
         }
 
         // PUT api/<CourseApiController>/5

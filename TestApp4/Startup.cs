@@ -46,6 +46,12 @@ namespace TestApp4
             services.AddScoped<ICourseRepository, CourseRepository>();
 
 
+            services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+
             services.AddControllers();
 
             services.AddSwaggerGen(options =>
